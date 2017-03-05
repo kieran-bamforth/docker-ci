@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --recursive --ui tdd ./tests"
+    "test": "./node_modules/.bin/mocha --recursive --ui tdd ./tests"
   },
   "author": "",
   "license": "ISC",
