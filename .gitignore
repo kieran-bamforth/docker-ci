@@ -1,3 +1,5 @@
 jenkins_home/*
+!jenkins_home/jobs
+!jenkins_home/users
 node_modules/*
 npm-debug.log
