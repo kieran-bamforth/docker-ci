@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "test": "./node_modules/.bin/mocha --recursive --ui tdd ./tests"
+    "test": "./node_modules/.bin/mocha --recursive --ui tdd ./src/tests"
   },
   "author": "",
   "license": "ISC",
