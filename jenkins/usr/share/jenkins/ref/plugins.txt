@@ -1,1 +1,4 @@
 docker-workflow:1.10
+github-branch-source:2.0.3
+timestamper:1.8.8
+workflow-aggregator:2.5
