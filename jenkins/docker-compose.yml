@@ -8,3 +8,6 @@ services:
             - '5000:5000'
         volumes:
             - './jenkins_home:/var/jenkins_home'
+            - './usr/share/jenkins/ref:/usr/share/jenkins/ref'
+            - './var/jenkins_home/jobs:/var/jenkins_home/jobs'
+            - './var/jenkins_home/users:/var/jenkins_home/users'
