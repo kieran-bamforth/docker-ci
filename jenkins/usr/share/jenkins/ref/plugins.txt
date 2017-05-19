@@ -1,9 +1,11 @@
-credentials:2.1.6
+branch-api:1.11
+cloudbees-folder:5.12
+credentials:2.1.13
 display-url-api:0.1
 docker-commons:1.5
 docker-workflow:1.10
 git:2.6.4
-github-api:1.84
+github-api:1.85
 github-branch-source:2.0.3
 github:1.26.0
 pipeline-build-step:2.4
@@ -12,7 +14,9 @@ pipeline-milestone-step:1.3
 pipeline-model-definition:1.0
 pipeline-stage-step:2.2
 pipeline-stage-view:2.4
-scm-api:2.0.4
+scm-api:2.1.1
+script-security:1.23
+structs:1.5
 timestamper:1.8.8
 workflow-aggregator:2.5
 workflow-api:2.8
