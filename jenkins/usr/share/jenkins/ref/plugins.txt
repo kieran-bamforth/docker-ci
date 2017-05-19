@@ -1,23 +1,39 @@
+ace-editor:1.0.1
+authentication-tokens:1.1
 branch-api:1.11
 cloudbees-folder:5.12
 credentials:2.1.13
 display-url-api:0.1
 docker-commons:1.5
 docker-workflow:1.10
+durable-task:1.12
+git-client:1.21.0 
 git:2.6.4
 github-api:1.85
 github-branch-source:2.0.3
 github:1.26.0
+handlebars:1.1
+icon-shim:1.0.3 
+jquery-detached:1.2.1
+junit:1.3
+mailer:1.17
+matrix-project:1.7.1
+momentjs:1.1
 pipeline-build-step:2.4
+pipeline-graph-analysis v1.1
 pipeline-input-step:2.5
 pipeline-milestone-step:1.3
 pipeline-model-definition:1.0
+pipeline-rest-api:2.4
 pipeline-stage-step:2.2
 pipeline-stage-view:2.4
+plain-credentials v1.1
 scm-api:2.1.1
 script-security:1.23
+ssh-credentials:1.12
 structs:1.5
 timestamper:1.8.8
+token-macro v1.11
 workflow-aggregator:2.5
 workflow-api:2.8
 workflow-basic-steps:2.3
