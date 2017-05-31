@@ -1,13 +1,13 @@
-pipeline {
-	agent any 
+node {
+	stage ("Main build") {
 
-	stages {
-		stage('build') { 
-			steps {
-				docker.image('node:6').inside { 
-					sh 'npm install && npm test' 
-				}
+		checkout scm
+
+		docker.image('node:6').inside {
+			stage ("Install dependencies and test") {
+				sh 'npm install && npm test' 
 			}
 		}
+
 	}
 }
