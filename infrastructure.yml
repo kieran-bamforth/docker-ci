@@ -1,0 +1,8 @@
+---
+Outputs:
+    EcrRepoName: 
+        Description: The name of the ECR repo
+        Value: !Ref "EcrRepo"
+Resources:
+    EcrRepo:
+        Type: AWS::ECR::Repository
