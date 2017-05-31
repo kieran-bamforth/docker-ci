@@ -1,3 +1,4 @@
+jenkins/usr/share/jenkins/ref/plugins/*
 jenkins/var/jenkins_home/users/admin
 node_modules/*
 npm-debug.log
