@@ -5,7 +5,7 @@ node {
 
 		docker.image('node:6').inside {
 			stage ("Install dependencies and test") {
-				sh 'npm install && npm test' 
+				sh 'cd app && npm install && npm test' 
 			}
 		}
 
