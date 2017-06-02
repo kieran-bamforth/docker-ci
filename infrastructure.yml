@@ -6,3 +6,69 @@ Outputs:
 Resources:
     EcrRepo:
         Type: AWS::ECR::Repository
+
+    Vpc:
+        Type: AWS::EC2::VPC
+        Properties:
+            CidrBlock: 10.0.0.0/16
+
+    InternetGateway:
+        Type: AWS::EC2::InternetGateway
+
+    AttachInternetGateway:
+        Type: AWS::EC2::VPCGatewayAttachment
+        Properties:
+            InternetGatewayId: !Ref "InternetGateway"
+            VpcId: !Ref "Vpc"
+
+    PublicRouteTable:
+        Type: AWS::EC2::RouteTable
+        Properties:
+            VpcId: !Ref "Vpc"
+
+    PublicRoute:
+        Type: AWS::EC2::Route
+        Properties:
+            DestinationCidrBlock: 0.0.0.0/0
+            GatewayId: !Ref "InternetGateway"
+            RouteTableId: !Ref "PublicRouteTable"
+        DependsOn: InternetGateway
+
+    PublicSubnet:
+        Type: AWS::EC2::Subnet
+        Properties:
+            AvailabilityZone: eu-west-1a
+            CidrBlock: 10.0.0.0/24
+            MapPublicIpOnLaunch: 'true'
+            VpcId: !Ref "Vpc"
+
+    PublicSubnetRouteTable:
+        Type: AWS::EC2::SubnetRouteTableAssociation
+        Properties:
+            RouteTableId: !Ref "PublicRouteTable"
+            SubnetId: !Ref "PublicSubnet"
+
+    JenkinsSecurityGroup:
+        Type: AWS::EC2::SecurityGroup
+        Properties:
+            GroupDescription: Security group for Jenkins instance
+            VpcId: !Ref "Vpc"
+            SecurityGroupIngress:
+                - CidrIp: 0.0.0.0/0
+                  FromPort: 22
+                  IpProtocol: tcp
+                  ToPort: 22
+                - CidrIp: 0.0.0.0/0
+                  FromPort: 80
+                  IpProtocol: tcp
+                  ToPort: 80
+
+    Jenkins:
+        Type: AWS::EC2::Instance
+        Properties:
+            ImageId: ami-01ccc867
+            InstanceType: t2.micro
+            KeyName: kieranbamforth
+            SecurityGroupIds: 
+                - !GetAtt JenkinsSecurityGroup.GroupId
+            SubnetId: !Ref "PublicSubnet"
