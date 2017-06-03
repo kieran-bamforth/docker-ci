@@ -13,5 +13,8 @@ infrastructure:
 		--template-body file://infrastructure.yml \
 		--capabilities CAPABILITY_IAM
 
+provision:
+	cd ansible && ansible-playbook main.yml -i inventory.py
+
 run:
 	cd jenkins && docker-compose up

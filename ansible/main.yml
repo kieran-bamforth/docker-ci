@@ -1,0 +1,7 @@
+---
+- name: Provision Jenkins.
+  sudo: yes
+  hosts:
+      - jenkins
+  roles:
+      - common

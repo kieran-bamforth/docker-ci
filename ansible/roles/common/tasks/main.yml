@@ -1,0 +1,33 @@
+---
+- name: Install NTP.
+  yum: 
+      name: ntp
+      state: present
+  tags:
+      - common
+
+- name: Configure NTP file.
+  template: 
+      src: ntp.conf.j2
+      dest: /etc/ntp.conf
+      owner: root
+      group: root
+      mode: 0644
+  notify: restart ntp
+  tags:
+      - common
+
+- name: Start the NTP service.
+  service: 
+      name: ntpd
+      state: started
+      enabled: true
+  tags:
+      - common
+
+- name: Install Tree.
+  yum:
+      name: tree
+      state: present
+  tags:
+      - common
