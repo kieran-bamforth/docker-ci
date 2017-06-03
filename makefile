@@ -1,6 +1,11 @@
 build: 
 	cd jenkins && docker build -t docker-ci-jenkins .
 
+dockerify: 
+	export DOCKER_HOST=$(shell aws cloudformation describe-stacks \
+		--stack-name docker-ci \
+		| jq -r '.Stacks[].Outputs[] | select (.OutputKey == "JenkinsIp").OutputValue'):2376
+
 infrastructure-update: 
 	aws cloudformation update-stack \
 		--stack-name docker-ci \
