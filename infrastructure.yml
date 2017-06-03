@@ -3,6 +3,11 @@ Outputs:
     EcrRepoName: 
         Description: The name of the ECR repo
         Value: !Ref "EcrRepo"
+
+    JenkinsIp:
+        Description: The public IP address of the jenkins instance
+        Value: !GetAtt Jenkins.PublicIp
+
 Resources:
     EcrRepo:
         Type: AWS::ECR::Repository
