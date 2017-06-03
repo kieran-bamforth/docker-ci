@@ -6,6 +6,14 @@ dockerify:
 		--stack-name docker-ci \
 		| jq -r '.Stacks[].Outputs[] | select (.OutputKey == "JenkinsIp").OutputValue'):2376
 
+ecr-login:
+	$(eval REPO_NAME := $(shell aws cloudformation describe-stacks \
+		--stack-name docker-ci \
+		| jq -r '.Stacks[].Outputs[] | select (.OutputKey == "EcrRepoName").OutputValue'))
+	$(eval REGISTRY_ID := $(shell aws ecr describe-repositories \
+		| jq -r '.repositories[] | select (.repositoryName == "$(REPO_NAME)").registryId'))
+	@aws ecr get-login --registry-ids $(REGISTRY_ID)
+
 infrastructure-update: 
 	aws cloudformation update-stack \
 		--stack-name docker-ci \
@@ -23,3 +31,4 @@ provision:
 
 run:
 	cd jenkins && docker-compose up
+
