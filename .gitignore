@@ -1,3 +1,4 @@
+ansible/*.retry
 jenkins/usr/share/jenkins/ref/plugins/*
 jenkins/var/jenkins_home/users/admin
 jenkins/var/jenkins_home/jobs/docker-ci/branches
