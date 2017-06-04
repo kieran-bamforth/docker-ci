@@ -9,8 +9,21 @@ Outputs:
         Value: !GetAtt Jenkins.PublicIp
 
 Resources:
+
     EcrRepo:
         Type: AWS::ECR::Repository
+        Properties:
+            RepositoryPolicyText:
+                Version: "2012-10-17"
+                Statement:
+                    - Effect: "Allow"
+                      Action: 
+                        - "ecr:GetDownloadUrlForLayer"
+                        - "ecr:BatchGetImage"
+                        - "ecr:BatchCheckLayerAvailability"
+                      Principal:
+                          AWS:
+                              - !GetAtt JenkinsRole.Arn
 
     Vpc:
         Type: AWS::EC2::VPC
@@ -72,9 +85,27 @@ Resources:
                   IpProtocol: tcp
                   ToPort: 2376
 
+    JenkinsRole:
+        Type: AWS::IAM::Role
+        Properties:
+            AssumeRolePolicyDocument:
+                Version: "2012-10-17"
+                Statement: 
+                    - Effect: "Allow"
+                      Principal: 
+                          Service: "ec2.amazonaws.com"
+                      Action: "sts:AssumeRole"
+
+    JenkinsProfile: 
+        Type: AWS::IAM::InstanceProfile
+        Properties:
+            Roles:
+                - !Ref "JenkinsRole"
+
     Jenkins:
         Type: AWS::EC2::Instance
         Properties:
+            IamInstanceProfile: !Ref "JenkinsProfile"
             ImageId: ami-01ccc867
             InstanceType: t2.micro
             KeyName: kieranbamforth
