@@ -30,6 +30,11 @@ infrastructure:
 		--template-body file://infrastructure.yml \
 		--capabilities CAPABILITY_IAM
 
+push: get-repo-name
+	$(eval REGISTRY_URI := $(shell aws ecr describe-repositories \
+		| jq -r '.repositories[] | select (.repositoryName == "$(REPO_NAME)").repositoryUri'))
+	cd jenkins && docker push $(REGISTRY_URI):latest .
+
 provision:
 	cd ansible && ansible-playbook main.yml -i inventory.py
 
