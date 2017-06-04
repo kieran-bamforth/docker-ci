@@ -13,6 +13,11 @@ get-ecr-login: get-repo-name
 		| jq -r '.repositories[] | select (.repositoryName == "$(REPO_NAME)").registryId'))
 	@aws ecr get-login --registry-ids $(REGISTRY_ID)
 
+get-jenkins-ip:
+	$(eval JENKINS_IP := $(shell aws cloudformation describe-stacks \
+		--stack-name docker-ci \
+		| jq -r '.Stacks[].Outputs[] | select (.OutputKey == "JenkinsIp").OutputValue'))
+
 get-repo-name:
 	$(eval REPO_NAME := $(shell aws cloudformation describe-stacks \
 		--stack-name docker-ci \
@@ -41,3 +46,5 @@ provision:
 run:
 	cd jenkins && docker-compose up
 
+ssh: get-jenkins-ip
+	ssh ec2-user@$(JENKINS_IP)
