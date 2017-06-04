@@ -2,7 +2,7 @@ build: get-registry-uri
 	cd jenkins && docker build -t $(REGISTRY_URI):latest .
 
 compose: dockerify get-registry-uri
-	cd jenkins && REGISTRY_URI=$(REGISTRY_URI) docker-compose -f docker-compose.live.yml up
+	cd jenkins && REGISTRY_URI=$(REGISTRY_URI) docker-compose -f docker-compose.prod.yml up
 
 dockerify: 
 	export DOCKER_HOST=$(shell aws cloudformation describe-stacks \
