@@ -1,18 +1,22 @@
-build: 
-	cd jenkins && docker build -t docker-ci-jenkins .
+build: get-repo-name
+	$(eval REGISTRY_URI := $(shell aws ecr describe-repositories \
+		| jq -r '.repositories[] | select (.repositoryName == "$(REPO_NAME)").repositoryUri'))
+	cd jenkins && docker build -t $(REGISTRY_URI):latest .
 
 dockerify: 
 	export DOCKER_HOST=$(shell aws cloudformation describe-stacks \
 		--stack-name docker-ci \
 		| jq -r '.Stacks[].Outputs[] | select (.OutputKey == "JenkinsIp").OutputValue'):2376
 
-ecr-login:
-	$(eval REPO_NAME := $(shell aws cloudformation describe-stacks \
-		--stack-name docker-ci \
-		| jq -r '.Stacks[].Outputs[] | select (.OutputKey == "EcrRepoName").OutputValue'))
+get-ecr-login: get-repo-name
 	$(eval REGISTRY_ID := $(shell aws ecr describe-repositories \
 		| jq -r '.repositories[] | select (.repositoryName == "$(REPO_NAME)").registryId'))
 	@aws ecr get-login --registry-ids $(REGISTRY_ID)
+
+get-repo-name:
+	$(eval REPO_NAME := $(shell aws cloudformation describe-stacks \
+		--stack-name docker-ci \
+		| jq -r '.Stacks[].Outputs[] | select (.OutputKey == "EcrRepoName").OutputValue'))
 
 infrastructure-update: 
 	aws cloudformation update-stack \
