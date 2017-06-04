@@ -1,6 +1,4 @@
-build: get-repo-name
-	$(eval REGISTRY_URI := $(shell aws ecr describe-repositories \
-		| jq -r '.repositories[] | select (.repositoryName == "$(REPO_NAME)").repositoryUri'))
+build: get-registry-uri
 	cd jenkins && docker build -t $(REGISTRY_URI):latest .
 
 dockerify: 
@@ -23,6 +21,10 @@ get-repo-name:
 		--stack-name docker-ci \
 		| jq -r '.Stacks[].Outputs[] | select (.OutputKey == "EcrRepoName").OutputValue'))
 
+get-registry-uri: get-repo-name
+	$(eval REGISTRY_URI := $(shell aws ecr describe-repositories \
+		| jq -r '.repositories[] | select (.repositoryName == "$(REPO_NAME)").repositoryUri'))
+
 infrastructure-update: 
 	aws cloudformation update-stack \
 		--stack-name docker-ci \
@@ -35,9 +37,7 @@ infrastructure:
 		--template-body file://infrastructure.yml \
 		--capabilities CAPABILITY_IAM
 
-push: get-repo-name
-	$(eval REGISTRY_URI := $(shell aws ecr describe-repositories \
-		| jq -r '.repositories[] | select (.repositoryName == "$(REPO_NAME)").repositoryUri'))
+push: get-registry-uri
 	cd jenkins && docker push $(REGISTRY_URI):latest
 
 provision:
