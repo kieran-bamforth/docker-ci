@@ -11,6 +11,7 @@ compose: get-registry-uri
 	cd jenkins && REGISTRY_URI=$(REGISTRY_URI) docker-compose -f docker-compose.$(ENV).yml $(COMPOSE_MODE)
 
 dockerify: 
+	export DOCKER_TLS_VERIFY=1
 	export DOCKER_HOST=$(shell aws cloudformation describe-stacks \
 		--stack-name docker-ci \
 		| jq -r '.Stacks[].Outputs[] | select (.OutputKey == "JenkinsIp").OutputValue'):2376
