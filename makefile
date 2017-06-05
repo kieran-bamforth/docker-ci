@@ -1,3 +1,6 @@
+ENV ?= dev
+COMPOSE_MODE ?= up
+
 browse: get-jenkins-ip
 	open http://$(JENKINS_IP)
 
@@ -5,12 +8,27 @@ build: get-registry-uri
 	cd jenkins && docker build -t $(REGISTRY_URI):latest .
 
 compose: get-registry-uri
-	cd jenkins && REGISTRY_URI=$(REGISTRY_URI) docker-compose -f docker-compose.prod.yml up
+	cd jenkins && REGISTRY_URI=$(REGISTRY_URI) docker-compose -f docker-compose.$(ENV).yml $(COMPOSE_MODE)
 
 dockerify: 
 	export DOCKER_HOST=$(shell aws cloudformation describe-stacks \
 		--stack-name docker-ci \
 		| jq -r '.Stacks[].Outputs[] | select (.OutputKey == "JenkinsIp").OutputValue'):2376
+
+generate-jenkins-cert: get-jenkins-ip
+	$(eval DEST := ./ansible/roles/docker/files)
+	$(eval NAME := jenkins)
+	openssl genrsa -out $(DEST)/$(NAME).key 2048
+	openssl req -subj "/CN=jenkins.kieranbamforth.me" -sha256 -new -key $(DEST)/$(NAME).key -out $(DEST)/$(NAME).csr
+	echo subjectAltName = IP:$(JENKINS_IP) > extfile.cnf
+	openssl x509 -req -days 365 -sha256 -in $(DEST)/$(NAME).csr \
+		-CA ~/src/dotfiles/.ssh/keys/ca/ca.crt \
+		-CAkey ~/src/dotfiles/.ssh/keys/ca/ca.key \
+		-CAcreateserial \
+		-out $(DEST)/$(NAME).crt  \
+		-extfile extfile.cnf
+	rm extfile.cnf
+	rm $(DEST)/$(NAME).csr
 
 get-ecr-login: get-repo-name
 	$(eval REGISTRY_ID := $(shell aws ecr describe-repositories \
