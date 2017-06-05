@@ -15,7 +15,7 @@ dockerify:
 		--stack-name docker-ci \
 		| jq -r '.Stacks[].Outputs[] | select (.OutputKey == "JenkinsIp").OutputValue'):2376
 
-generate-docker-cert: get-jenkins-ip
+generate-docker-cert: pull-ca get-jenkins-ip
 	$(eval DEST := ./ansible/roles/docker/files)
 	$(eval NAME := docker)
 	openssl genrsa -out $(DEST)/$(NAME).key 2048
@@ -60,6 +60,9 @@ infrastructure:
 		--stack-name docker-ci \
 		--template-body file://infrastructure.yml \
 		--capabilities CAPABILITY_IAM
+
+pull-ca: 
+	cp ~/src/dotfiles/.ssh/keys/ca/* ./ansible/roles/docker/files
 
 push: get-registry-uri
 	cd jenkins && docker push $(REGISTRY_URI):latest
