@@ -1,6 +1,7 @@
 ansible/*.retry
 ansible/roles/docker/files/*.crt
 ansible/roles/docker/files/*.key
+ansible/roles/docker/files/*.key.pub
 jenkins/usr/share/jenkins/ref/plugins/*
 jenkins/var/jenkins_home/jobs/docker-ci/branches
 jenkins/var/jenkins_home/jobs/docker-ci/indexing
