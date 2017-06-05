@@ -1,7 +1,7 @@
 version: '2'
 services:
     jenkins:
-        image: docker-ci-jenkins
+        image: ${REGISTRY_URI}:latest
         container_name: jenkins
         ports: 
             - '8080:8080'
