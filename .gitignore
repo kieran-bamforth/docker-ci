@@ -6,6 +6,6 @@ jenkins/usr/share/jenkins/ref/plugins/*
 jenkins/var/jenkins_home/jobs/docker-ci/branches
 jenkins/var/jenkins_home/jobs/docker-ci/indexing
 jenkins/var/jenkins_home/jobs/docker-ci/state.xml
-jenkins/var/jenkins_home/users/admin
+jenkins/var/jenkins_home/users
 node_modules/*
 npm-debug.log
