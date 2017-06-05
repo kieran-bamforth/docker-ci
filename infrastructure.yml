@@ -112,3 +112,13 @@ Resources:
             SecurityGroupIds: 
                 - !GetAtt JenkinsSecurityGroup.GroupId
             SubnetId: !Ref "PublicSubnet"
+
+    JenkinsARecord:
+         Type: AWS::Route53::RecordSet
+         Properties:
+             HostedZoneName: kieranbamforth.me.
+             Name: jenkins.kieranbamforth.me.
+             TTL: '300'
+             Type: A
+             ResourceRecords:
+                 - !GetAtt Jenkins.PublicIp
