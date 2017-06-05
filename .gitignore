@@ -1,8 +1,10 @@
 ansible/*.retry
+ansible/roles/docker/files/*.crt
+ansible/roles/docker/files/*.key
 jenkins/usr/share/jenkins/ref/plugins/*
-jenkins/var/jenkins_home/users/admin
 jenkins/var/jenkins_home/jobs/docker-ci/branches
 jenkins/var/jenkins_home/jobs/docker-ci/indexing
 jenkins/var/jenkins_home/jobs/docker-ci/state.xml
+jenkins/var/jenkins_home/users/admin
 node_modules/*
 npm-debug.log
