@@ -15,9 +15,9 @@ dockerify:
 		--stack-name docker-ci \
 		| jq -r '.Stacks[].Outputs[] | select (.OutputKey == "JenkinsIp").OutputValue'):2376
 
-generate-jenkins-cert: get-jenkins-ip
+generate-docker-cert: get-jenkins-ip
 	$(eval DEST := ./ansible/roles/docker/files)
-	$(eval NAME := jenkins)
+	$(eval NAME := docker)
 	openssl genrsa -out $(DEST)/$(NAME).key 2048
 	openssl req -subj "/CN=jenkins.kieranbamforth.me" -sha256 -new -key $(DEST)/$(NAME).key -out $(DEST)/$(NAME).csr
 	echo subjectAltName = IP:$(JENKINS_IP) > extfile.cnf
