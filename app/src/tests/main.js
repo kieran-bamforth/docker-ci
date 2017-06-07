@@ -1,8 +1,8 @@
 var chai = require('chai');
 var assert = chai.assert;
 
-describe('Test suite', function() {
-  it ('Should always pass', function() {
+describe('Test suite', () => {
+  it ('Should always pass', () => {
     assert.isTrue(true);
   });
 })
