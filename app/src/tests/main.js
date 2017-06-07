@@ -3,6 +3,6 @@ var assert = chai.assert;
 
 describe('Test suite', function() {
   it ('Should always pass', function() {
-    assert.isTrue(false);
+    assert.isTrue(true);
   });
 })
