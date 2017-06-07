@@ -1,0 +1,30 @@
+---
+- name: Format block device.
+  filesystem:
+      fstype: ext4
+      dev: /dev/xvdf
+      force: yes
+  tags:
+      - mount_device
+      - install_docker
+
+- name: Ensure jenkins_home mountpoint exists.
+  file: 
+      path: /var/jenkins_home
+      state: directory
+      owner: root
+      group: root
+      mode: 755
+  tags:
+      - mount_device
+      - install_docker
+
+- name: Mount block device onto mountpoint
+  mount:
+      path: /var/jenkins_home
+      src: /dev/xvdf
+      fstype: ext4
+      state: mounted
+  tags:
+      - mount_device
+      - install_docker

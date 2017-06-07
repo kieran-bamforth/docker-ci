@@ -1,0 +1,30 @@
+---
+- name: Install the Kieran Bamforth CA.
+  copy:
+      src: ca.crt
+      dest: "/etc/pki/tls/certs/ca.crt"
+      owner: root
+      group: root
+      mode: 0444
+  tags:
+      - install_docker
+
+- name: Install the Docker certificate.
+  copy:
+      src: docker.crt
+      dest: "/etc/pki/tls/certs/docker.crt"
+      owner: root
+      group: root
+      mode: 0444
+  tags:
+      - install_docker
+
+- name: Install the Docker certificate key.
+  copy:
+      src: docker.key
+      dest: "/etc/pki/tls/private/docker.key"
+      owner: root
+      group: root
+      mode: 0444
+  tags:
+      - install_docker

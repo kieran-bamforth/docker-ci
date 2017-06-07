@@ -1,0 +1,38 @@
+---
+- name: Install Docker.
+  yum: name=docker state=latest
+  tags:
+      - install_docker
+
+- name: Ensure Docker daemon directory exists.
+  file: 
+      path: /etc/docker
+      state: directory
+      owner: root
+      group: root
+      mode: 0644
+  tags:
+      - install_docker
+
+- name: Install daemon configuration.
+  template:
+      src: daemon.json.j2
+      dest: /etc/docker/daemon.json
+      owner: root
+      group: root
+      mode: 0644
+  tags:
+      - install_docker
+
+- name: Add ec2-user to Docker group.
+  user:
+      name: ec2-user
+      groups: docker
+      append: yes
+  tags:
+      - install_docker
+
+- name: Start Docker. 
+  service: name=docker state=started
+  tags:
+      - install_docker
