@@ -1,2 +1,3 @@
 ---
 - include: mount_device.yml
+- include: install_files.yml

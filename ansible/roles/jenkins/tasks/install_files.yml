@@ -1,0 +1,23 @@
+---
+- name: Ensure jenkins jobs directory exists.
+  file: 
+      path: /var/jenkins_home/jobs/docker-ci
+      state: directory
+      owner: root
+      group: root
+      mode: 0755
+  tags:
+      - install_jenkins
+      - install_jenkins_files
+
+
+- name: Install the jobs.
+  copy:
+      src: config.xml
+      dest: "/var/jenkins_home/jobs/docker-ci/config.xml"
+      owner: root
+      group: root
+      mode: 0544
+  tags:
+      - install_jenkins
+      - install_jenkins_files
