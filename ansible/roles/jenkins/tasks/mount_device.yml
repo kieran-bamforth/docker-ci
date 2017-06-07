@@ -5,8 +5,7 @@
       dev: /dev/xvdf
       force: yes
   tags:
-      - mount_device
-      - install_docker
+      - install_jenkins
 
 - name: Ensure jenkins_home mountpoint exists.
   file: 
@@ -16,8 +15,7 @@
       group: root
       mode: 755
   tags:
-      - mount_device
-      - install_docker
+      - install_jenkins
 
 - name: Mount block device onto mountpoint
   mount:
@@ -26,5 +24,4 @@
       fstype: ext4
       state: mounted
   tags:
-      - mount_device
-      - install_docker
+      - install_jenkins

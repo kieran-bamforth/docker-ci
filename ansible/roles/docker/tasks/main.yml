@@ -1,4 +1,3 @@
 ---
 - include: install_certs.yml
 - include: install_docker.yml
-- include: mount_device.yml
