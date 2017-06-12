@@ -3,7 +3,7 @@ node {
 
 		checkout scm
 
-		docker.image('node:6').inside {
+		docker.image('mhart/alpine-node:0.12').inside {
 			stage ("Install dependencies and test") {
 				sh 'cd app && npm install && npm test' 
 			}
