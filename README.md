@@ -7,3 +7,4 @@ A test project to see how Jenkins + Docker pipelines can work together, maybe.
 - [x] Create a job that links up with GitHub
 - [x] Create a docker image that will be used to build the app
 - [x] Ensure that the NodeJS app is working
+- [x] Create the webhook for GitHub
