@@ -1,11 +1,21 @@
 version: '2'
 services:
+
     jenkins:
         image: ${REGISTRY_URI}:latest
         container_name: jenkins
-        ports: 
+        ports:
             - '80:8080'
             - '5000:5000'
         volumes:
             - '/var/jenkins_home:/var/jenkins_home'
             - '/var/run/docker.sock:/var/run/docker.sock'
+
+    solr:
+        image: solr:6.6
+        container_name: solr
+        ports:
+            - '8983:8983'
+        command: 'solr-precreate mycore'
+        volumes:
+            - '/opt/solr/server/solr/mycores:/opt/solr/server/solr/mycores'

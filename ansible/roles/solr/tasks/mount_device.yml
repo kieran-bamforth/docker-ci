@@ -1,0 +1,28 @@
+---
+- name: Format block device.
+  filesystem:
+      fstype: ext4
+      dev: /dev/xvdg
+      force: yes
+  tags:
+      - install_solr
+
+- name: Ensure solr_home mountpoint exists.
+  file:
+      path: /opt/solr/server/solr/mycores
+      state: directory
+      owner: 8983
+      group: 8983
+      recurse: true
+      mode: 0755
+  tags:
+      - install_solr
+
+- name: Mount block device onto mountpoint
+  mount:
+      path: /opt/solr/server/solr/mycores
+      src: /dev/xvdg
+      fstype: ext4
+      state: mounted
+  tags:
+      - install_solr
