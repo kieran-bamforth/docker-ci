@@ -10,7 +10,7 @@ build: get-registry-uri
 compose: get-registry-uri
 	cd jenkins && REGISTRY_URI=$(REGISTRY_URI) docker-compose -f docker-compose.$(ENV).yml $(COMPOSE_MODE)
 
-dockerify: 
+dockerify:
 	export DOCKER_TLS_VERIFY=1
 	export DOCKER_HOST=$(shell aws cloudformation describe-stacks \
 		--stack-name docker-ci \
@@ -50,19 +50,19 @@ get-registry-uri: get-repo-name
 	$(eval REGISTRY_URI := $(shell aws ecr describe-repositories \
 		| jq -r '.repositories[] | select (.repositoryName == "$(REPO_NAME)").repositoryUri'))
 
-infrastructure-update: 
+infrastructure-update:
 	aws cloudformation update-stack \
 		--stack-name docker-ci \
 		--template-body file://infrastructure.yml \
 		--capabilities CAPABILITY_IAM
 
-infrastructure: 
+infrastructure:
 	aws cloudformation create-stack \
 		--stack-name docker-ci \
 		--template-body file://infrastructure.yml \
 		--capabilities CAPABILITY_IAM
 
-pull-ca: 
+pull-ca:
 	cp ~/src/dotfiles/.ssh/keys/ca/* ./ansible/roles/docker/files
 
 push: get-registry-uri

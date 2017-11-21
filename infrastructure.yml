@@ -1,6 +1,6 @@
 ---
 Outputs:
-    EcrRepoName: 
+    EcrRepoName:
         Description: The name of the ECR repo
         Value: !Ref "EcrRepo"
 
@@ -17,7 +17,7 @@ Resources:
                 Version: "2012-10-17"
                 Statement:
                     - Effect: "Allow"
-                      Action: 
+                      Action:
                         - "ecr:GetDownloadUrlForLayer"
                         - "ecr:BatchGetImage"
                         - "ecr:BatchCheckLayerAvailability"
@@ -84,19 +84,23 @@ Resources:
                   FromPort: 2376
                   IpProtocol: tcp
                   ToPort: 2376
+                - CidrIp: 0.0.0.0/0
+                  FromPort: 9292
+                  IpProtocol: tcp
+                  ToPort: 9292
 
     JenkinsRole:
         Type: AWS::IAM::Role
         Properties:
             AssumeRolePolicyDocument:
                 Version: "2012-10-17"
-                Statement: 
+                Statement:
                     - Effect: "Allow"
-                      Principal: 
+                      Principal:
                           Service: "ec2.amazonaws.com"
                       Action: "sts:AssumeRole"
 
-    JenkinsProfile: 
+    JenkinsProfile:
         Type: AWS::IAM::InstanceProfile
         Properties:
             Roles:
@@ -109,7 +113,7 @@ Resources:
             ImageId: ami-01ccc867
             InstanceType: t2.micro
             KeyName: kieranbamforth
-            SecurityGroupIds: 
+            SecurityGroupIds:
                 - !GetAtt JenkinsSecurityGroup.GroupId
             SubnetId: !Ref "PublicSubnet"
             Volumes:
@@ -132,3 +136,13 @@ Resources:
             AvailabilityZone: eu-west-1a
             Size: 8
             VolumeType: gp2
+
+    DockerARecord:
+         Type: AWS::Route53::RecordSet
+         Properties:
+             HostedZoneName: kieranbamforth.me.
+             Name: docker.kieranbamforth.me.
+             TTL: '300'
+             Type: A
+             ResourceRecords:
+                 - !GetAtt Jenkins.PublicIp
