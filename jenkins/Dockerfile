@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
 		curl \
 		gnupg2 \
 		software-properties-common \
-	&& curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \ 
+	&& curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
 	&& apt-key fingerprint 0EBFCD88 \
 	&& add-apt-repository \
 		"deb [arch=amd64] https://download.docker.com/linux/debian \
@@ -19,6 +19,6 @@ RUN apt-get update && apt-get install -y \
 
 COPY ./usr/share/jenkins/ref/plugins.txt /usr/share/jenkins/ref/
 
-RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt 
+RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
 
-# USER jenkins
+USER jenkins

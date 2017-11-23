@@ -34,7 +34,7 @@ generate-docker-cert: pull-ca get-jenkins-ip
 get-ecr-login: get-repo-name
 	$(eval REGISTRY_ID := $(shell aws ecr describe-repositories \
 		| jq -r '.repositories[] | select (.repositoryName == "$(REPO_NAME)").registryId'))
-	@aws ecr get-login --registry-ids $(REGISTRY_ID)
+	@aws ecr get-login --no-include-email --registry-ids $(REGISTRY_ID)
 
 get-jenkins-ip:
 	$(eval JENKINS_IP := $(shell aws cloudformation describe-stacks \
@@ -70,9 +70,6 @@ push: get-registry-uri
 
 provision:
 	cd ansible && ansible-playbook main.yml -i inventory.py
-
-run:
-	cd jenkins && docker-compose up
 
 ssh: get-jenkins-ip
 	ssh ec2-user@$(JENKINS_IP)
